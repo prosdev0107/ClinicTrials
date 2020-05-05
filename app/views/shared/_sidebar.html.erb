@@ -1,0 +1,15 @@
+<nav id="sidebar" class="">
+  <h1><%= link_to "Dashboard", admin_root_path, id: "dashboard", class: "logo" %></h1>
+  <ul class="list-unstyled components mb-5">
+    <li>
+      <%= link_to(admin_clinic_trials_path) do %>
+        <span class="fa fa-home mr-3"></span> Clinical Trials
+      <% end %>
+    </li>
+    <li>
+      <%= link_to(admin_clinic_trials_import_path) do %>
+        <span class="fa fa-user mr-3"></span> Import
+      <% end %>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,2 @@
+class ClinicTrial < ApplicationRecord
+end
