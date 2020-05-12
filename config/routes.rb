@@ -4,6 +4,6 @@ Rails.application.routes.draw do
     root 'dashboard#index'
 
     resources :clinic_trials, only: [:index, :create, :update, :show]
-    get "clinic_trials", "clinic_trials/import"
+    get "clinic_trials/import/:id", to: "clinic_trials#import"
   end 
 end
