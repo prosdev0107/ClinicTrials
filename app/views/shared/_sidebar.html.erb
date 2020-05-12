@@ -1,14 +1,16 @@
 <nav id="sidebar" class="">
   <h1><%= link_to "Dashboard", admin_root_path, id: "dashboard", class: "logo" %></h1>
-  <ul class="list-unstyled components mb-5">
-    <li>
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <li class="nav-item">
       <%= link_to(admin_clinic_trials_path) do %>
-        <span class="fa fa-home mr-3"></span> Clinical Trials
+        <i class="fa fa-home mr-3"></i> 
+        <span>Show All</span>
       <% end %>
     </li>
-    <li>
+    <li class="nav-item">
       <%= link_to(admin_clinic_trials_import_path) do %>
-        <span class="fa fa-user mr-3"></span> Import
+        <i class="fa fa-user mr-3"></i> 
+        <span>Import New</span>
       <% end %>
     </li>
   </ul>

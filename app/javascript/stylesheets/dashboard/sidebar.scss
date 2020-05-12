@@ -71,7 +71,7 @@ a:not([href]):not([tabindex]):focus {
   font-size: 14px;
 }
 #sidebar ul li a {
-  padding: 15px 30px;
+  padding: 15px 36px;
   display: block;
   color: rgba(255, 255, 255, 0.6);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -89,9 +89,15 @@ a:not([href]):not([tabindex]):focus {
   background: #2f89fc;
   border-bottom: 1px solid #2f89fc;
 }
+#sidebar ul li a i {
+  width: 14px;
+  height: 14px;
+}
 @media (max-width: 991.98px) {
   #sidebar {
-    margin-left: -250px;
+    //margin-left: -250px;
+    min-width: 80px;
+    max-width: 80px;
   }
   #sidebar.active {
     margin-left: 0;
@@ -99,6 +105,15 @@ a:not([href]):not([tabindex]):focus {
   #sidebar .custom-menu {
     margin-right: -60px !important;
     top: 10px !important;
+  }
+  #sidebar ul li a {
+    text-align: center;
+  }
+  #sidebar ul li a span {
+    display: none;
+  }
+  #sidebar h1 {
+    display: none;
   }
 }
 #sidebar .custom-menu {

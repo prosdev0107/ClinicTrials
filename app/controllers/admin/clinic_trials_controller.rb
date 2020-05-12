@@ -2,19 +2,32 @@ class Admin::ClinicTrialsController < ApplicationController
   @@baseURI = "https://clinicaltrials.gov/api/query/study_fields"
   @@countURI = "https://clinicaltrials.gov/api/query/field_values"
   def import
+    @page = 0
     @count = JSON.parse(HTTParty.get(@@countURI + count_params))["FieldValuesResponse"]["NStudiesFound"].to_i
-    @ctlist = JSON.parse(HTTParty.get(@@baseURI + search_params))["StudyFieldsResponse"]["StudyFields"]
-    @trials = Kaminari.paginate_array(@ctlist, total_count: @count).page(params[:page]).per(5)
+    @rawRecords = Array.new
+    loop do
+      @min_rank = @page * 100 + 1
+      @max_rank = (@page + 1) * 100
+      @query = "?fmt=JSON&expr=Psoriatic+Arthritis&fields=NCTId,BriefTitle,OverallStatus&min_rnk=#{@min_rank}&max_rnk=#{@max_rank}"
+      @ctlist = JSON.parse(HTTParty.get(@@baseURI + @query))["StudyFieldsResponse"]["StudyFields"]
+      @ctlist.map { |trial|
+        if ClinicTrial.where(upidnumber: trial['NCTId'][0]).count <= 0
+          @rawRecords.push trial
+        end
+      }
+      break if @max_rank >= @count
+      @page += 1
+    end
+    @trials = Kaminari.paginate_array(@rawRecords).page(params[:page]).per(5)
   end
 
   def index
     @trials = ClinicTrial.order(:id).page params[:page]
   end
-
+  
   def create
     @page = 0
     @count = JSON.parse(HTTParty.get(@@countURI + count_params))["FieldValuesResponse"]["NStudiesFound"].to_i
-    # @trials = Array.new
     loop do
       @min_rank = @page * 100 + 1
       @max_rank = (@page + 1) * 100
@@ -46,16 +59,27 @@ class Admin::ClinicTrialsController < ApplicationController
     redirect_to admin_clinic_trials_path
   end
 
-  def search_params
-    @min_rank = 1
-    @max_rank = 5
-    if params[:page].present?
-      @page = params[:page].to_i
-      @min_rank = (@page - 1) * 5 + 1
-      @max_rank = @page * 5
+  def show
+    unless params[:id].present? 
+      redirect_to "index"
     end
-    @query = "?fmt=JSON&expr=Psoriatic+Arthritis&fields=NCTId,BriefTitle,OverallStatus&min_rnk=#{@min_rank}&max_rnk=#{@max_rank}"
+    @query="https://clinicaltrials.gov/api/query/full_studies?expr=Psoriatic+Arthritis+AREA[NCTId]#{params[:id]}&min_rnk=1&max_rnk=&fmt=json"
+    @request = HTTParty.get(@query)
+    if @request.code == 200
+      @ctlist = JSON.parse(@request)["FullStudiesResponse"]["FullStudies"][0]
+    end
   end
+
+  # def search_params
+  #   @min_rank = 1
+  #   @max_rank = 5
+  #   if params[:page].present?
+  #     @page = params[:page].to_i
+  #     @min_rank = (@page - 1) * 5 + 1
+  #     @max_rank = @page * 5
+  #   end
+  #   @query = "?fmt=JSON&expr=Psoriatic+Arthritis&fields=NCTId,BriefTitle,OverallStatus&min_rnk=#{@min_rank}&max_rnk=#{@max_rank}"
+  # end
   
   def count_params
     @query = "?fmt=JSON&expr=Psoriatic+Arthritis&field=Condition"

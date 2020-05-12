@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root 'dashboard#index'
 
-    resources :clinic_trials, only: [:index, :create, :update]
+    resources :clinic_trials, only: [:index, :create, :update, :show]
     get "clinic_trials", "clinic_trials/import"
   end 
 end

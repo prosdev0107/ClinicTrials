@@ -3,9 +3,8 @@
 
 <div class="row">
   <%= render "shared/sidebar" %>
-  <div class="container">
+  <div class="container col-md-9 col-xs-6">
     <%= form_tag(admin_clinic_trial_path(:trials), method: "put") do %>
-      <%= submit_tag("Save") %>
       <table class="table">
         <thead>
           <tr>
@@ -14,6 +13,7 @@
             <th scope="col">BriefTitle</th>
             <th scope="col">OverallStatus</th>
             <th scope="col">BF_Status</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -27,11 +27,17 @@
                 <%= hidden_field_tag('seen[]', trial.id) -%>
                 <%= check_box_tag 'bf_status[]', trial.id, trial['bf_status'] -%>
               </td>
+              <td>
+                <%= link_to admin_clinic_trial_path(trial['upidnumber']), class: "btn btn-primary" do %>
+                  Show
+                <% end %>
+              </td>
             </tr>
           <% end %>
         </tbody>
       </table>
       <%= paginate @trials %>
+      <%= submit_tag "Hide Selected", class: "btn btn-primary mt-3" %>
     <% end %>
   </div>
 </div>
