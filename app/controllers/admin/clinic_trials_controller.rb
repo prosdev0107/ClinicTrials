@@ -43,7 +43,7 @@ class Admin::ClinicTrialsController < ApplicationController
       break if @max_rank >= @count
       @page += 1
     end
-    redirect_to admin_clinic_trials_import_path
+    redirect_to admin_path(:new)
   end
 
   def update
