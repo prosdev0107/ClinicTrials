@@ -1,3 +1,5 @@
+require 'json'
+
 class Admin::ClinicTrialsController < ApplicationController
   @@baseURI = "https://clinicaltrials.gov/api/query/study_fields"
   @@countURI = "https://clinicaltrials.gov/api/query/field_values"
@@ -66,7 +68,7 @@ class Admin::ClinicTrialsController < ApplicationController
     @query="https://clinicaltrials.gov/api/query/full_studies?expr=Psoriatic+Arthritis+AREA[NCTId]#{params[:id]}&min_rnk=1&max_rnk=&fmt=json"
     @request = HTTParty.get(@query)
     if @request.code == 200
-      @ctlist = JSON.parse(@request)["FullStudiesResponse"]["FullStudies"][0]
+      @ctlist = JSON.pretty_generate(JSON.parse(@request)["FullStudiesResponse"]["FullStudies"][0])
     end
   end
 
