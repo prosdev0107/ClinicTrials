@@ -4,28 +4,31 @@
 <div class="row">
   <%= render "shared/sidebar" %>
   <div class="container col-md-9 col-xs-6">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Index</th>
-          <th scope="col">NCTId</th>
-          <th scope="col">BriefTitle</th>
-          <th scope="col">OverallStatus</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @trials.each do |trial| %>
+    <%= button_to "Fetch new trials", admin_clinic_trials_path, {class: "btn btn-primary mt-3 mb-3"} %>
+    <%= form_tag(admin_clinic_trial_path(:trials), method: "put") do %>
+      <table class="table">
+        <thead>
           <tr>
-            <th scope="row"><%= trial['Rank'] %></th>
-            <td><%= trial['NCTId'][0] %></td>
-            <td><%= trial['BriefTitle'][0] %></td>
-            <td><%= trial['OverallStatus'][0] %></td>
+            <th scope="col">Index</th>
+            <th scope="col">NCTId</th>
+            <th scope="col">BriefTitle</th>
+            <th scope="col">OverallStatus</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= paginate @trials %>
-    <%= button_to "Import", {action: "create"}, {class: "btn btn-primary mt-3"} %>
+        </thead>
+        <tbody>
+          <% @trials.each do |trial| %>
+            <tr>
+              <th scope="row"><%= trial['id'] %></th>
+              <td><%= trial['upidnumber'] %></td>
+              <td><%= trial['trial_name'] %></td>
+              <td><%= trial['trial_status'] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= paginate @trials %>
+      <%= submit_tag "Import", class: "btn btn-primary mt-3" %>
+    <% end %>    
   </div>
 </div>
 

@@ -4,7 +4,7 @@ class CreateClinicTrials < ActiveRecord::Migration[6.0]
       t.string :upidnumber
       t.string :trial_name
       t.string :trial_status
-      t.boolean :bf_status      
+      t.boolean :bf_status, :default=>false
 
       t.timestamps
     end
