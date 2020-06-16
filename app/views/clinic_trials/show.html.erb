@@ -1,0 +1,18 @@
+<%= render "shared/navbar" %>
+<div class="row">
+  <div class="col-md-8 col-11 col-sm-11">
+    <textarea class="mt-3 ml-3 mr-3 w-100" rows="30">
+      <%= @trial_detail.to_s %>
+    </textarea>
+  </div>
+  <div class="col-md-4 col-11 col-sm-11">    
+    <%= form_for :patient, url: clinic_trial_path, html: {class: "form-group"} do |f| %>
+      Name: <%= f.text_field :name %></br>
+      Email: <%= f.text_field :email %></br>
+      Phone number: <%= f.text_field :number %></br>
+      Address: <%= f.text_field :address %></br>
+      <%= submit_tag "Interest", class: "btn btn-primary mt-3" %>
+    <% end %>
+  </div>
+</div>
+

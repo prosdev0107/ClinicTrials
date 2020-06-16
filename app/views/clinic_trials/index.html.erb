@@ -1,0 +1,32 @@
+<%= render "shared/navbar" %>
+<div class="row">
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Index</th>
+          <th scope="col">NCTId</th>
+          <th scope="col">BriefTitle</th>
+          <th scope="col">OverallStatus</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @trials.each do |trial| %>
+          <tr>
+            <th scope="row"><%= trial['id'] %></th>
+            <td><%= trial['upidnumber'] %></td>
+            <td><%= trial['trial_name'] %></td>
+            <td><%= trial['trial_status'] %></td>
+            <td>
+              <%= link_to clinic_trial_path(trial['upidnumber']), class: "btn btn-primary" do %>
+                Show
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @trials %>
+  </div>
+</div>
