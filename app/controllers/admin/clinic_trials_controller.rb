@@ -1,6 +1,9 @@
 require 'json'
 
+#Import and create Clinical trials from clinictrials.gov
 class Admin::ClinicTrialsController < ApplicationController
+  before_action :require_admin
+
   def import
     @trials = ClinicTrial.where(is_new: true).order(:id).page params[:page]
   end
@@ -28,7 +31,7 @@ class Admin::ClinicTrialsController < ApplicationController
   end
 
   def index
-    @trials = ClinicTrial.where(is_new: false).order(:id).page params[:page]
+    @trials = ClinicTrial.where(search_param).order(:id).page params[:page]
   end
 
   def update
@@ -50,5 +53,25 @@ class Admin::ClinicTrialsController < ApplicationController
     end
 
     @ctlist = ClinicalTrialApi.new.fetch_detail(params[:id])
+    trial = ClinicTrial.where(upidnumber: params[:id]).first
+    @relations = TrialUserRelation.joins(:user).where(clinic_trial_id: trial.id)
+  end
+
+  def patients
+    unless params[:id].present? 
+      redirect_to "index"
+    end
+
+  end
+
+  def require_admin
+    unless current_user && current_user.admin?
+      store_location_for(:user, request.url)
+      redirect_to new_user_session_path, alert: 'You must be logged in as a admin to access this section'
+    end   
+  end
+
+  def search_param
+    params.permit(:is_new, :bf_status)
   end
 end

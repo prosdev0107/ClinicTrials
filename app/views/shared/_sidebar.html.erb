@@ -2,13 +2,19 @@
   <h1><%= link_to "Dashboard", admin_root_path, id: "dashboard", class: "logo" %></h1>
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <li class="nav-item">
-      <%= link_to(admin_clinic_trials_path) do %>
+      <%= link_to(admin_clinic_trials_path(is_new: false)) do %>
         <i class="fa fa-home mr-3"></i> 
         <span>Show All</span>
       <% end %>
     </li>
     <li class="nav-item">
-      <%= link_to(admin_path(:new)) do %>
+      <%= link_to(admin_clinic_trials_path(is_new: false, bf_status: true)) do %>
+        <i class="fa fa-home mr-3"></i> 
+        <span>Active</span>
+      <% end %>
+    </li>
+    <li class="nav-item">
+      <%= link_to(admin_import_path) do %>
         <i class="fa fa-user mr-3"></i> 
         <span>Import New</span>
       <% end %>

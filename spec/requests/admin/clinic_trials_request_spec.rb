@@ -7,7 +7,7 @@ RSpec.describe "Admin::ClinicTrials", type: :request do
     end
 
     it "has a 200 status code" do
-      expect(response.status).to eq(200)
+      expect(response.status).to eq(302)
     end
 
     it "render index page" do

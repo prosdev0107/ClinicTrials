@@ -1,3 +1,5 @@
+#Service to fetch clinic trials from clinictrials.gov
+
 class ClinicalTrialApi
   include HTTParty
   base_uri 'https://clinicaltrials.gov/api/query'

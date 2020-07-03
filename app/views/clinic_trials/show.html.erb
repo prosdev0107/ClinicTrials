@@ -5,14 +5,15 @@
       <%= @trial_detail.to_s %>
     </textarea>
   </div>
-  <div class="col-md-4 col-11 col-sm-11">    
-    <%= form_for :patient, url: clinic_trial_path, html: {class: "form-group"} do |f| %>
-      Name: <%= f.text_field :name %></br>
-      Email: <%= f.text_field :email %></br>
-      Phone number: <%= f.text_field :number %></br>
-      Address: <%= f.text_field :address %></br>
-      <%= submit_tag "Interest", class: "btn btn-primary mt-3" %>
+  <div class="col-md-4 col-11 col-sm-11">
+    <% unless @is_applied > 0 %>
+      <%= form_for :patient, html: {class: "form-group"} do |f| %>
+        <%= submit_tag "Interest", class: "btn btn-primary mt-3" %>
+      <% end %>
+    <% else %>
+      <p class="mt-4">You already applied.</p>
     <% end %>
+    <%= flash[:error].to_s %>
   </div>
 </div>
 
